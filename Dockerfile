@@ -77,7 +77,14 @@ RUN set -x && \
 ### Test with Laravel
 ### ----------------------------------------------------------
 
-
+RUN apt-get update \
+  && apt-get install -y postgresql postgresql-contrib \
+  && apt-get install sudo \
+  && apt-get install -y libpq-dev \
+  && docker-php-ext-install pdo pdo_pgsql \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+  
 COPY php/*.php /usr/share/nginx/html
 COPY laravel-8.5.5/public /usr/share/nginx/html
 COPY laravel-8.5.5 /var/www/html
